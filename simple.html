@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Retro Bowl 2 - Simple</title>
+    <style>
+        body { 
+            background: #000; 
+            color: #fff; 
+            margin: 0; 
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        canvas { 
+            border: 1px solid #333; 
+            display: block;
+            margin: 20px auto;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h1>Retro Bowl 2 - Simple Mode</h1>
+        <p>Choose your approach:</p>
+        <button onclick="loadHTML5()">Try HTML5 Version (Hackable)</button>
+        <button onclick="loadUnity()">Try Unity Version (Stable)</button>
+        <button onclick="loadProduction()">Try Production Version</button>
+    </div>
+    
+    <div id="game-container"></div>
+    
+    <script>
+        function loadHTML5() {
+            window.location.href = '/index.html';
+        }
+        
+        function loadUnity() {
+            window.location.href = '/unity.html';
+        }
+        
+        function loadProduction() {
+            window.location.href = '/production.html';
+        }
+        
+        // Auto-detect best version
+        console.log('Available game versions:');
+        console.log('- HTML5 (GameMaker): Fully hackable but has initialization issues');
+        console.log('- Unity WebGL: Stable but harder to modify');
+        console.log('- Production: Alternative HTML5 build');
+    </script>
+</body>
+</html>

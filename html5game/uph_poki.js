@@ -1,4 +1,32 @@
 console.log("Poki wrapper load");
+
+// Initialize PokiSDK mock if not available
+if (typeof window.PokiSDK === 'undefined') {
+    window.PokiSDK = {
+        init: function() { console.log('PokiSDK.init called'); return Promise.resolve(); },
+        gameplayStart: function() { console.log('PokiSDK.gameplayStart called'); },
+        gameplayStop: function() { console.log('PokiSDK.gameplayStop called'); },
+        commercialBreak: function() { 
+            console.log('PokiSDK.commercialBreak called'); 
+            return Promise.resolve(true);
+        },
+        rewardedBreak: function() { 
+            console.log('PokiSDK.rewardedBreak called'); 
+            return Promise.resolve(false);
+        },
+        happyTime: function(magnitude) { console.log('PokiSDK.happyTime called:', magnitude); },
+        gameLoadingStart: function() { console.log('PokiSDK.gameLoadingStart called'); },
+        gameLoadingProgress: function(progress) { console.log('PokiSDK.gameLoadingProgress called:', progress); },
+        gameLoadingFinished: function() { console.log('PokiSDK.gameLoadingFinished called'); },
+        getURLParam: function(param) { 
+            console.log('PokiSDK.getURLParam called:', param); 
+            return null; 
+        }
+    };
+    window.PokiSDK_OK = true;
+    window.PokiSDK_loadState = 0;
+}
+
 ///~
 function poki_init_raw() {
   console.log("Poki wrapper init");
@@ -19,33 +47,54 @@ function poki_is_blocked() {
 }
 
 function poki_gameplay_start() {
-  if (PokiSDK) PokiSDK.gameplayStart();
+  if (window.PokiSDK && typeof window.PokiSDK.gameplayStart === 'function') {
+    window.PokiSDK.gameplayStart();
+  }
 }
 
 function poki_gameplay_stop() {
-  if (PokiSDK) PokiSDK.gameplayStop();
+  if (window.PokiSDK && typeof window.PokiSDK.gameplayStop === 'function') {
+    window.PokiSDK.gameplayStop();
+  }
 }
 
 function poki_happy_time(magnitude) {
-  if (PokiSDK) PokiSDK.happyTime(magnitude);
+  if (window.PokiSDK && typeof window.PokiSDK.happyTime === 'function') {
+    window.PokiSDK.happyTime(magnitude);
+  }
 }
 
 ///~
 function poki_commercial_break_raw(fn) {
-  if (PokiSDK) {
-    PokiSDK.commercialBreak().then(function () {
-      fn(true);
-    });
-  } else
+  console.log('poki_commercial_break_raw called');
+  try {
+    if (window.PokiSDK && typeof window.PokiSDK.commercialBreak === 'function') {
+      console.log('Calling PokiSDK.commercialBreak');
+      window.PokiSDK.commercialBreak().then(function () {
+        console.log('Commercial break completed');
+        fn(true);
+      }).catch(function(error) {
+        console.log('Commercial break failed:', error);
+        fn(false);
+      });
+    } else {
+      console.log('No PokiSDK, skipping commercial');
+      setTimeout(function () {
+        fn(false);
+      }, 0);
+    }
+  } catch (error) {
+    console.log('Commercial break error:', error);
     setTimeout(function () {
       fn(false);
     }, 0);
+  }
 }
 
 ///~
 function poki_rewarded_break_raw(fn) {
-  if (PokiSDK) {
-    PokiSDK.rewardedBreak().then(fn);
+  if (window.PokiSDK && typeof window.PokiSDK.rewardedBreak === 'function') {
+    window.PokiSDK.rewardedBreak().then(fn);
   } else
     setTimeout(function () {
       fn(false);
@@ -133,7 +182,10 @@ function poki_loadbar(ctx, width, height, total, current, image) {
 }
 ///~
 function poki_get_team_raw() {
-  return PokiSDK.getURLParam("team");
+  if (window.PokiSDK && typeof window.PokiSDK.getURLParam === 'function') {
+    return window.PokiSDK.getURLParam("team");
+  }
+  return null;
 }
 
 function poki_set_team_raw(team) {

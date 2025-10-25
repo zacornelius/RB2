@@ -1,0 +1,4 @@
+# Roster data file
+# Team rosters will be generated dynamically
+version=1
+teams=32
