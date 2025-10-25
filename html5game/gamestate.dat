@@ -1,6 +1,0 @@
-# Game state data
-initialized=1
-current_team=0
-current_season=1
-current_week=1
-game_mode=0

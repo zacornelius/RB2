@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Retro Bowl 2 - Arcade Mode</title>
+    <style>
+        body { 
+            background: #000; 
+            color: #00ff00; 
+            margin: 0; 
+            padding: 0;
+            font-family: 'Courier New', monospace;
+        }
+        .header {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+        }
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        canvas { 
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+        }
+        .info {
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏈 RETRO BOWL 2 - ARCADE MODE 🏈</h1>
+        <p>Pure Gameplay - No Management, No Records, No Drafts</p>
+    </div>
+    
+    <div class="controls">
+        <strong>CONTROLS:</strong><br>
+        Q = Quick Match<br>
+        R = Restart<br>
+        ESC = Menu
+    </div>
+    
+    <div class="info">
+        <p>🎮 ARCADE MODE: Jump straight into gameplay! 🎮</p>
+    </div>
+
+    <!-- Game Canvas Container -->
+    <div class="gm4html5_div_class" id="gm4html5_div_id">
+        <img src="html5game/splash.png" id="GM4HTML5_loadingscreen" alt="Loading..." style="display:none;"/>
+        <canvas id="canvas" width="960" height="540">
+            <p>Your browser doesn't support HTML5 canvas.</p>
+        </canvas>
+    </div>
+
+    <!-- Load all game scripts -->
+    <script>
+        window.cpd = function() { return true; };
+    </script>
+    
+    <script src="js/error-handler.js"></script>
+    <script src="js/gameplay-fix.js"></script>
+    <script src="js/simple-mode.js"></script>
+    <script src="js/bypass-management.js"></script>
+    
+    <script type="text/javascript" src="html5game/RetroBowl.js?WAEAC=1633155445"></script>
+    <script>
+        window.onload = GameMaker_Init;
+    </script>
+    <script src="/html/settings/js/index.js"></script>
+</body>
+</html>

@@ -103,6 +103,21 @@
     <!-- Define missing functions before loading game -->
     <script>
       window.cpd = function() { return true; };
+      
+      // Clear all browser storage to force fresh start
+      console.log("Clearing browser storage for fresh start...");
+      if (typeof(Storage) !== "undefined") {
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log("Browser storage cleared");
+      }
+      
+      // Clear any game-specific cookies
+      document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+      });
+      
+      console.log("Forced fresh game start");
     </script>
     
     <!-- Load error handler -->
@@ -110,6 +125,18 @@
     
     <!-- Load gameplay fix -->
     <script src="js/gameplay-fix.js"></script>
+    
+    <!-- Load core modifications -->
+    <script src="js/core-modifications.js"></script>
+    
+    <!-- Load menu simplifier -->
+    <script src="js/menu-simplifier.js"></script>
+    
+    <!-- Load no-schedule mode -->
+    <script src="js/no-schedule.js"></script>
+    
+    <!-- Load always-playable mode -->
+    <script src="js/always-playable.js"></script>
     
     <!-- Run the game code -->
     <script
